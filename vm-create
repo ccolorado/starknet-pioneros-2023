@@ -1,11 +1,11 @@
 #!/bin/bash
 source ./env
 
-image=$(docker images --filter reference=starknetes-cairo-goerli -q)
+image=$(docker images --filter reference=$IMAGE_NAME -q)
 
 if [[ -z "$image" ]]; then
-    # docker build -t starknetes-cairo-goerli .
-    docker build --no-cache -t starknetes-cairo-goerli .
+    # docker build -t $IMAGE_NAME .
+    docker build --no-cache -t $IMAGE_NAME .
 else
     echo "Image is already built"
     echo "run vm-start"
