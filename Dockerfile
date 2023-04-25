@@ -17,7 +17,10 @@ RUN sh -c "$(mkdir -p /root/bin)"
 
 RUN sh -c "$(cd /tmp/ && wget -q https://github.com/software-mansion/scarb/releases/download/v0.1.0/scarb-v0.1.0-x86_64-unknown-linux-gnu.tar.gz)"
 
-RUN sh -c "$(cd /tmp/ && tar -xf scarb-v0.1.0-x86_64-unknown-linux-gnu.tar.gz --one-top-level=/root/bin/scarb --strip-components 1)"
+# RUN sh -c "$(cd /tmp/ && tar -xf scarb-v0.1.0-x86_64-unknown-linux-gnu.tar.gz --one-top-level=/root/bin/scarb --strip-components 1)"
+RUN sh -c "$(cd /tmp/ && tar -xf scarb-v0.1.0-x86_64-unknown-linux-gnu.tar.gz && mv scarb-v0.1.0-x86_64-unknown-linux-gnu /root/bin/scarb)"
+
+ENV PATH "/root/bin/scarb/bin/:$PATH"
 
 RUN python -m pip install --upgrade pip
 
