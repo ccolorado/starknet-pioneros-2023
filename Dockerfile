@@ -1,7 +1,7 @@
 # Dockerfile
 
-FROM starknet/cairo:1.0.0-alpha.6 AS build
-# FROM starknet/cairo:latest AS build
+# FROM starknet/cairo:1.0.0-alpha.6 AS build
+FROM starknet/cairo:latest AS build
 
 FROM python:3.9-alpine
 
