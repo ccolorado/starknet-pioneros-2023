@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo -e "\r\n>> Stopping and destroying container if exists"
+./vm-destroy || ./vm-destroy
+echo -e "\r\n>> Rebuilding image"
+./vm-create
+echo -e "\r\n>> Starting conatiner"
+./vm-start
+echo -e "\r\n>> Connectin to conatiner"
+./vm-connect
