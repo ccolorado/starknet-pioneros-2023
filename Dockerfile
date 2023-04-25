@@ -34,4 +34,4 @@ COPY --from=build /usr/bin/* /usr/bin/
 COPY --from=build /corelib /corelib
 
 WORKDIR /work/
-ENTRYPOINT [ "zsh" ]
+ENTRYPOINT [ "sh" ]
