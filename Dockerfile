@@ -6,7 +6,11 @@ FROM starknet/cairo:1.0.0-alpha.6 AS build
 FROM python:3.9-alpine
 
 # Aquí se pueden agregar varios programas que se ocuparian para trabajar más cómodos.
-RUN apk add --update gmp-dev build-base nodejs npm git zsh curl tmux vim bash wget tree
+RUN apk add --update gmp-dev build-base nodejs npm git zsh curl libc6-compat gcompat
+
+# Optional deps
+RUN apk add --update tmux vim bash wget tree
+
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 RUN sh -c "$(mkdir -p /root/bin)"
 
