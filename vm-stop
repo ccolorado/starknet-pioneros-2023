@@ -1,0 +1,23 @@
+#!/bin/bash
+source ./.env
+
+docker ps -a
+
+CONTAINER_ID=$(docker ps -a --filter name=$CONTAINER_NAME -q)
+INSTANCE_RECORD=$(docker ps -a --filter name=$CONTAINER_NAME)
+
+if [[ -z "$CONTAINER_ID" ]]; then
+    echo "Container doesn't exists"
+    exit 1
+fi
+
+container_status=$(docker inspect -f '{{.State.Running}}' $CONTAINER_NAME)
+
+if [ "$container_status" = "true" ]; then
+    echo "Stopping containter"
+    echo -e "\r\nStopping container..."
+    echo $INSTANCE_RECORD
+    docker stop $CONTAINER_ID
+
+    echo "Retry to destroy container"
+fi

@@ -1,10 +1,10 @@
 #!/bin/bash
-source ./env
+source ./.env
 
 image=$(docker images --filter reference=$IMAGE_NAME -q)
 
 if [[ -z "$image" ]]; then
-    # docker build -t $IMAGE_NAME .
+    echo "Building image $IMAGE_NAME"
     docker build --no-cache -t $IMAGE_NAME .
 else
     echo "Image is already built"

@@ -3,24 +3,39 @@
 # FROM starknet/cairo:1.0.0-alpha.6 AS build
 FROM starknet/cairo:latest AS build
 
-FROM python:3.9-alpine
+FROM ubuntu:latest
 
-# Aquí se pueden agregar varios programas que se ocuparian para trabajar más cómodos.
-RUN apk add --update gmp-dev build-base nodejs npm git zsh curl libc6-compat gcompat
+# Install some dependencies required by deadsnakes PPA
+RUN apt-get update && \
+  apt-get install -y software-properties-common dirmngr gnupg-agent && \
+  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6A755776
+
+# Add deadsnakes PPA and install Python 3.9
+RUN add-apt-repository ppa:deadsnakes/ppa && \
+  apt-get update && \
+  apt-get install -y python3.9
+
+# FROM python:3.9-ubuntu
+
+RUN ls /etc/*release && cat /etc/*release
+
+RUN apt-get install nodejs npm git zsh curl
+RUN apt-get install tmux vim bash wget tree
+
+# RUN apk add --update libc6-compat gcompat gmp-dev build-base
 
 # Optional deps
-RUN apk add --update tmux vim bash wget tree
 
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-RUN sh -c "$(mkdir -p /root/bin)"
+RUN sh -c "$(mkdir -p /work/bin)"
 
-RUN sh -c "$(cd /tmp/ && wget -q https://github.com/software-mansion/scarb/releases/download/v0.1.0/scarb-v0.1.0-x86_64-unknown-linux-gnu.tar.gz)"
+RUN sh -c "$(cd /tmp/ && wget -q https://github.com/software-mansion/scarb/releases/download/v0.2.0-alpha.0/scarb-v0.2.0-alpha.0-x86_64-unknown-linux-gnu.tar.gz)"
 
 # RUN sh -c "$(cd /tmp/ && tar -xf scarb-v0.1.0-x86_64-unknown-linux-gnu.tar.gz --one-top-level=/root/bin/scarb --strip-components 1)"
-RUN sh -c "$(cd /tmp/ && tar -xf scarb-v0.1.0-x86_64-unknown-linux-gnu.tar.gz && mv scarb-v0.1.0-x86_64-unknown-linux-gnu /root/bin/scarb)"
+RUN sh -c "$(cd /tmp/ && tar -xf scarb-v0.2.0-alpha.0-x86_64-unknown-linux-gnu.tar.gz && mv scarb-v0.2.0-alpha.0-x86_64-unknown-linux-gnu /work/bin/scarb)"
 
-ENV PATH "/root/bin/scarb/bin/:$PATH"
+ENV PATH "/work/bin/scarb/bin/:$PATH"
 
 RUN python -m pip install --upgrade pip
 
